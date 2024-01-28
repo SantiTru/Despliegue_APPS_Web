@@ -1,8 +1,17 @@
-#!/bin/bash
+#! /bin/bash
+STACK_NAME="TomcatPrueba"
+REGION=us-east-1
+CLI_PROFILE=default
 
-# Desplegamos la plantilla de CloudFormation en base a nuestro fichero YAML, establecemos el nombre de la pila y 
-# establecemos  las capacidades de nuestra pila
+InstanceType=t2.micro
+
+echo -e "\n=========== Desplegando  main.yml ================="
+
 aws cloudformation deploy \
---template-file main.yml \
---stack-name "TomcatPrueba" \
---capabilities CAPABILITY_NAMED_IAM
+	--region us-east-1 \
+	--profile default \
+	--stack-name "TomcatPrueba" \
+	--template-file ubuntu.yml \
+	--no-fail-on-empty-changeset \
+	--capabilities CAPABILITY_NAMED_IAM \
+	--parameter-override EC2InstanceType=$EC2_INSTANCE_TYPE
