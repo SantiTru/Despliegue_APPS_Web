@@ -193,14 +193,15 @@ Resources:
           ufw allow 8080
           #Desplegamos aplicacion  desde repositorio de GitHub
           cd /tmp
-          sudo mkdir AppJava
+          mkdir AppJava
           cd AppJava
-          sudo git clone https://github.com/SantiTru/Despliegue_APPS_Web.git 
+          git clone https://github.com/SantiTru/Despliegue_APPS_Web.git 
           cd Despliegue_APPS_Web/
           cd springholamundo-main/
-          sudo chmod +x gradlew
-          sudo rm -rf /tmp/AppJava/Despliegue_APPS_Web/springholamundo-main/.gradle
-          sudo ./gradlew war
+          chmod +x gradlew
+          rm -rf /tmp/AppJava/Despliegue_APPS_Web/springholamundo-main/.gradle
+          ./gradlew war
+          cd build/libs/
           mv holamundo-0.0.1-SNAPSHOT-plain.war /opt/tomcat/webapps/holamundo-0.0.1-SNAPSHOT-plain.war
           # Esta tiene que ser la última instrucción
           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2Instance --region ${AWS::Region}
