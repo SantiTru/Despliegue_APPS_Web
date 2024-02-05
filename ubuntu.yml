@@ -202,7 +202,12 @@ Resources:
           rm -rf /tmp/AppJava/Despliegue_APPS_Web/springholamundo-main/.gradle
           ./gradlew war
           cd build/libs/
-          mv holamundo-0.0.1-SNAPSHOT-plain.war /opt/tomcat/webapps/holamundo-0.0.1-SNAPSHOT-plain.war
+          systemctl stop tomcat
+          mv holamundo-0.0.1-SNAPSHOT-plain.war /opt/tomcat/webapps/SantiTru.war
+          chown tomcat:tomcat /opt/tomcat/webapps/SantiTru.war
+          chmod 777 /opt/tomcat/webapps/SantiTru.war
+          systemctl start tomcat
+          systemctl enable tomcat
           # Esta tiene que ser la última instrucción
           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2Instance --region ${AWS::Region}
       Tags:
@@ -230,3 +235,6 @@ Outputs:
   EC2InstanceEndPoint:
     Description: Instancia EC2
     Value: !Sub "http://${EC2Instance.PublicDnsName}:8080"
+  AppInstallationPath:
+    Description: Ruta de instalación de la aplicación Java con Spring
+    Value: !Sub "/opt/tomcat/webapps/SantiTru.war"
